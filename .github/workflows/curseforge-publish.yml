@@ -1,0 +1,308 @@
+name: Publish to CurseForge
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Git tag to build and publish, for example v0.1.0
+        required: true
+        type: string
+      loader:
+        description: Which loader build to publish
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - forge
+          - neoforge-121
+          - neoforge-126
+
+permissions:
+  contents: write
+
+concurrency:
+  group: curseforge-${{ github.event.release.tag_name || inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+env:
+  RELEASE_VERSION: ${{ github.event.release.tag_name || inputs.tag || github.ref_name }}
+
+jobs:
+  publish-forge-1201:
+    if: github.event_name == 'release' || inputs.loader == 'all' || inputs.loader == 'forge'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: forge-1.20.1
+
+      - uses: actions/checkout@v4
+        with:
+          repository: QLNPLUS/Q-shop
+          ref: forge-1.20.1
+          path: q_shop
+
+      - uses: actions/checkout@v4
+        with:
+          repository: QLNPLUS/Q-shop-sellbox
+          ref: forge-1.20.1
+          path: q_shop_sellbox
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Remove local-only Gradle settings
+        run: |
+          sed -i -E '/^systemProp\.(http|https)\.proxy(Host|Port)=|^org\.gradle\.java\.home=/d' gradle.properties q_shop/gradle.properties q_shop_sellbox/gradle.properties
+
+      - name: Prepare version
+        run: echo "CURSEFORGE_VERSION=${RELEASE_VERSION#v}" >> "$GITHUB_ENV"
+
+      - name: Validate CurseForge configuration
+        env:
+          CURSEFORGE_PROJECT_ID: ${{ vars.CURSEFORGE_PROJECT_ID }}
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+        run: |
+          test -n "$CURSEFORGE_PROJECT_ID"
+          test -n "$CURSEFORGE_TOKEN"
+
+      - name: Build dependencies
+        run: |
+          chmod +x q_shop/gradlew q_shop_sellbox/gradlew
+          (cd q_shop && ./gradlew build --no-daemon)
+          (cd q_shop_sellbox && ./gradlew build --no-daemon)
+
+      - name: Build mod
+        run: |
+          chmod +x gradlew
+          ./gradlew build --no-daemon \
+            -Pmod_version="$CURSEFORGE_VERSION" \
+            -Pqshop_jar="$GITHUB_WORKSPACE/q_shop/build/libs/qshop-forge-1.20.1-1.8.0.jar" \
+            -Psellbox_jar="$GITHUB_WORKSPACE/q_shop_sellbox/build/libs/qshop-sellbox-forge-1.20.1-1.5.0.jar"
+
+      - name: Verify artifact
+        run: |
+          find build/libs -maxdepth 1 -type f -name '*.jar' -print
+          expected="qshop-sell-upgrade-forge-1.20.1-$CURSEFORGE_VERSION.jar"
+          test -f "build/libs/$expected"
+          echo "CURSEFORGE_FILE=build/libs/$expected" >> "$GITHUB_ENV"
+
+      - name: Prepare current changelog
+        run: |
+          awk -v version="$CURSEFORGE_VERSION" '
+            /^##[[:space:]]+/ {
+              heading = $2
+              gsub(/^\[/, "", heading)
+              gsub(/\].*$/, "", heading)
+              if (found && heading != version) exit
+              if (heading == version) found = 1
+            }
+            found { print }
+          ' CHANGELOG.md > build/curseforge-changelog.md
+          test -s build/curseforge-changelog.md
+
+      - name: Publish to CurseForge
+        uses: Kira-NT/mc-publish@v3
+        with:
+          curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          files: ${{ env.CURSEFORGE_FILE }}
+          version: ${{ env.CURSEFORGE_VERSION }}
+          name: qshop-sell-upgrade-forge-1.20.1-${{ env.CURSEFORGE_VERSION }}
+          version-type: release
+          changelog-file: build/curseforge-changelog.md
+          loaders: forge
+          game-versions: 1.20.1
+          java: 17
+
+  publish-neoforge-121:
+    if: github.event_name == 'release' || inputs.loader == 'all' || inputs.loader == 'neoforge-121'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: neoforge-1.21.1
+
+      - uses: actions/checkout@v4
+        with:
+          repository: QLNPLUS/Q-shop
+          ref: neoforge-1.21.1
+          path: q_shop
+
+      - uses: actions/checkout@v4
+        with:
+          repository: QLNPLUS/Q-shop-sellbox
+          ref: neoforge-1.21.1
+          path: q_shop_sellbox
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Remove local-only Gradle settings
+        run: |
+          sed -i -E '/^systemProp\.(http|https)\.proxy(Host|Port)=|^org\.gradle\.java\.home=/d' gradle.properties q_shop/gradle.properties q_shop_sellbox/gradle.properties
+
+      - name: Prepare version
+        run: echo "CURSEFORGE_VERSION=${RELEASE_VERSION#v}" >> "$GITHUB_ENV"
+
+      - name: Validate CurseForge configuration
+        env:
+          CURSEFORGE_PROJECT_ID: ${{ vars.CURSEFORGE_PROJECT_ID }}
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+        run: |
+          test -n "$CURSEFORGE_PROJECT_ID"
+          test -n "$CURSEFORGE_TOKEN"
+
+      - name: Build dependencies
+        run: |
+          chmod +x q_shop/gradlew q_shop_sellbox/gradlew
+          (cd q_shop && ./gradlew build --no-daemon)
+          (cd q_shop_sellbox && ./gradlew build --no-daemon)
+
+      - name: Build mod
+        run: |
+          chmod +x gradlew
+          ./gradlew build --no-daemon \
+            -Pmod_version="$CURSEFORGE_VERSION" \
+            -Pqshop_jar="$GITHUB_WORKSPACE/q_shop/build/libs/qshop-neoforge-1.21.1-1.8.1.jar" \
+            -Psellbox_jar="$GITHUB_WORKSPACE/q_shop_sellbox/build/libs/qshop_sellbox-neoforge-1.21.1-1.5.0.jar"
+
+      - name: Verify artifact
+        run: |
+          find build/libs -maxdepth 1 -type f -name '*.jar' -print
+          expected="qshop_sell_upgrade-neoforge-1.21.1-$CURSEFORGE_VERSION.jar"
+          test -f "build/libs/$expected"
+          echo "CURSEFORGE_FILE=build/libs/$expected" >> "$GITHUB_ENV"
+
+      - name: Prepare current changelog
+        run: |
+          awk -v version="$CURSEFORGE_VERSION" '
+            /^##[[:space:]]+/ {
+              heading = $2
+              gsub(/^\[/, "", heading)
+              gsub(/\].*$/, "", heading)
+              if (found && heading != version) exit
+              if (heading == version) found = 1
+            }
+            found { print }
+          ' CHANGELOG.md > build/curseforge-changelog.md
+          test -s build/curseforge-changelog.md
+
+      - name: Publish to CurseForge
+        uses: Kira-NT/mc-publish@v3
+        with:
+          curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          files: ${{ env.CURSEFORGE_FILE }}
+          version: ${{ env.CURSEFORGE_VERSION }}
+          name: qshop_sell_upgrade-neoforge-1.21.1-${{ env.CURSEFORGE_VERSION }}
+          version-type: release
+          changelog-file: build/curseforge-changelog.md
+          loaders: neoforge
+          game-versions: 1.21.1
+          java: 21
+
+  publish-neoforge-126:
+    if: github.event_name == 'release' || inputs.loader == 'all' || inputs.loader == 'neoforge-126'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: neoforge-1.26.1.2
+
+      - name: Check SellBox dependency branch
+        run: git ls-remote --exit-code https://github.com/QLNPLUS/Q-shop-sellbox.git refs/heads/neoforge-1.26.1.2
+
+      - uses: actions/checkout@v4
+        with:
+          repository: QLNPLUS/Q-shop
+          ref: neoforge-1.26.1.2
+          path: q_shop
+
+      - uses: actions/checkout@v4
+        with:
+          repository: QLNPLUS/Q-shop-sellbox
+          ref: neoforge-1.26.1.2
+          path: q_shop_sellbox
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Remove local-only Gradle settings
+        run: |
+          sed -i -E '/^systemProp\.(http|https)\.proxy(Host|Port)=|^org\.gradle\.java\.home=/d' gradle.properties q_shop/gradle.properties q_shop_sellbox/gradle.properties
+
+      - name: Prepare version
+        run: echo "CURSEFORGE_VERSION=${RELEASE_VERSION#v}" >> "$GITHUB_ENV"
+
+      - name: Validate CurseForge configuration
+        env:
+          CURSEFORGE_PROJECT_ID: ${{ vars.CURSEFORGE_PROJECT_ID }}
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+        run: |
+          test -n "$CURSEFORGE_PROJECT_ID"
+          test -n "$CURSEFORGE_TOKEN"
+
+      - name: Build dependencies
+        run: |
+          chmod +x q_shop/gradlew q_shop_sellbox/gradlew
+          (cd q_shop && ./gradlew build --no-daemon)
+          (cd q_shop_sellbox && ./gradlew build --no-daemon)
+
+      - name: Build mod
+        run: |
+          chmod +x gradlew
+          ./gradlew build --no-daemon \
+            -Pmod_version="$CURSEFORGE_VERSION" \
+            -Pqshop_jar="$GITHUB_WORKSPACE/q_shop/build/libs/qshop-neoforge-26.1.2-1.8.1.jar" \
+            -Psellbox_jar="$GITHUB_WORKSPACE/q_shop_sellbox/build/libs/qshop_sellbox-neoforge-26.1.2-1.5.0.jar"
+
+      - name: Verify artifact
+        run: |
+          find build/libs -maxdepth 1 -type f -name '*.jar' -print
+          expected="qshop_sell_upgrade-neoforge-26.1.2-$CURSEFORGE_VERSION.jar"
+          test -f "build/libs/$expected"
+          echo "CURSEFORGE_FILE=build/libs/$expected" >> "$GITHUB_ENV"
+
+      - name: Prepare current changelog
+        run: |
+          awk -v version="$CURSEFORGE_VERSION" '
+            /^##[[:space:]]+/ {
+              heading = $2
+              gsub(/^\[/, "", heading)
+              gsub(/\].*$/, "", heading)
+              if (found && heading != version) exit
+              if (heading == version) found = 1
+            }
+            found { print }
+          ' CHANGELOG.md > build/curseforge-changelog.md
+          test -s build/curseforge-changelog.md
+
+      - name: Publish to CurseForge
+        uses: Kira-NT/mc-publish@v3
+        with:
+          curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          files: ${{ env.CURSEFORGE_FILE }}
+          version: ${{ env.CURSEFORGE_VERSION }}
+          name: qshop_sell_upgrade-neoforge-26.1.2-${{ env.CURSEFORGE_VERSION }}
+          version-type: release
+          changelog-file: build/curseforge-changelog.md
+          loaders: neoforge
+          game-versions: 26.1.2
+          java: 25
