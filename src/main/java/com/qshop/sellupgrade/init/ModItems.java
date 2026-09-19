@@ -50,7 +50,7 @@ public final class ModItems {
             return;
         }
 
-        event.accept(SELL_UPGRADE);
-        event.accept(ADVANCED_SELL_UPGRADE);
+        event.accept(SELL_UPGRADE.get());
+        event.accept(ADVANCED_SELL_UPGRADE.get());
     }
 }
