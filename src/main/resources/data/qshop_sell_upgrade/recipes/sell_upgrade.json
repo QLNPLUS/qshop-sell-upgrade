@@ -1,16 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "GEG",
-    "EUE",
-    "GEG"
+    " S ",
+    " U ",
+    "   "
   ],
   "key": {
-    "G": {
-      "item": "minecraft:gold_ingot"
-    },
-    "E": {
-      "item": "minecraft:emerald"
+    "S": {
+      "item": "qshop_sellbox:sell_box"
     },
     "U": {
       "item": "sophisticatedbackpacks:upgrade_base"
