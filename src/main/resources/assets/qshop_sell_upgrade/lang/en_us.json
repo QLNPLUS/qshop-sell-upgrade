@@ -1,0 +1,7 @@
+{
+  "item.qshop_sell_upgrade.sell_upgrade": "Sell Upgrade",
+  "item.qshop_sell_upgrade.sell_upgrade.tooltip": "Sells priced picked-up items instead of storing them.",
+  "gui.qshop_sell_upgrade.upgrades.sell": "Sell",
+  "gui.qshop_sell_upgrade.upgrades.sell.tooltip": "Choose which priced items are sold.",
+  "gui.sophisticatedcore.upgrades.buttons.match_backpack_contents": "Match backpack contents"
+}

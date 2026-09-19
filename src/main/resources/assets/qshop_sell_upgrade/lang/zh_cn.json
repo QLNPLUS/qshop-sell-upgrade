@@ -1,0 +1,7 @@
+{
+  "item.qshop_sell_upgrade.sell_upgrade": "售卖升级",
+  "item.qshop_sell_upgrade.sell_upgrade.tooltip": "拾取有价格的物品时直接出售，不放入背包。",
+  "gui.qshop_sell_upgrade.upgrades.sell": "自动售卖",
+  "gui.qshop_sell_upgrade.upgrades.sell.tooltip": "选择要直接出售的有价物品。",
+  "gui.sophisticatedcore.upgrades.buttons.match_backpack_contents": "匹配背包内容"
+}
