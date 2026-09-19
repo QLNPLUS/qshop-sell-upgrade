@@ -1,7 +1,7 @@
 modLoader="javafml"
 loaderVersion="${loader_version_range}"
-license="MIT"
-issueTrackerURL="https://github.com/qshop/qshop-sell-upgrade/issues"
+license="ARR"
+issueTrackerURL="https://github.com/QLNPLUS/qshop-sell-upgrade/issues"
 
 [[mods]]
 modId="${mod_id}"
