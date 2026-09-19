@@ -5,6 +5,7 @@ import com.qshop.sellupgrade.upgrades.AdvancedSellUpgradeItem;
 import com.qshop.sellupgrade.upgrades.SellUpgradeItem;
 import com.qshop.sellupgrade.upgrades.SellUpgradeWrapper;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.DeferredRegister;
@@ -39,5 +40,14 @@ public final class ModItems {
         UpgradeContainerRegistry.register(SELL_UPGRADE.getId(), SELL_UPGRADE_CONTAINER_TYPE);
         UpgradeContainerRegistry.register(ADVANCED_SELL_UPGRADE.getId(), ADVANCED_SELL_UPGRADE_CONTAINER_TYPE);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ClientSetup::register);
+    }
+
+    public static void buildCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
+        if (!event.getTabKey().equals(net.p3pp3rf1y.sophisticatedbackpacks.init.ModItems.CREATIVE_TAB.getKey())) {
+            return;
+        }
+
+        event.accept(SELL_UPGRADE);
+        event.accept(ADVANCED_SELL_UPGRADE);
     }
 }

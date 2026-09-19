@@ -17,6 +17,7 @@ public final class QShopSellUpgradeMod {
         var modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModItems.ITEMS.register(modEventBus);
         modEventBus.addListener(ModItems::registerContainers);
+        modEventBus.addListener(ModItems::buildCreativeTabContents);
         MinecraftForge.EVENT_BUS.register(new PickupContextEvents());
     }
 }
