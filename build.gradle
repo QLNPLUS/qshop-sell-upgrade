@@ -2,14 +2,14 @@ plugins {
     id 'java-library'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.141'
+    id 'net.neoforged.moddev' version '2.0.146'
 }
 
 version = mod_version
 group = mod_group_id
-base { archivesName = "qshop-sell-upgrade-neoforge-1.21.1" }
+base { archivesName = "qshop-sell-upgrade-neoforge-26.1.2" }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 neoForge {
     version = neo_version
@@ -35,17 +35,17 @@ repositories {
 }
 
 def qshopJarFile = file(findProperty('qshop_jar') ?:
-        '../../q_shop/neoforge-1.21.1/build/libs/qshop-neoforge-1.21.1-1.8.1.jar')
+        '../../q_shop/neoforge-1.26.1.2/build/libs/qshop-neoforge-26.1.2-1.8.1.jar')
 if (!qshopJarFile.isFile()) {
     throw new GradleException('未找到 QShop 依赖 jar: ' + qshopJarFile + '\n' +
-            '请先构建 D:\\projects\\q_shop\\forge-1.20.1，或用 -Pqshop_jar=<path> 指定。')
+            '请先构建 D:\\projects\\q_shop\\neoforge-1.26.1.2，或用 -Pqshop_jar=<path> 指定。')
 }
 
 def sellboxJarFile = file(findProperty('sellbox_jar') ?:
-        '../../q_shop_sellbox/neoforge-1.21.1/build/libs/qshop_sellbox-neoforge-1.21.1-1.5.0.jar')
+        '../../q_shop_sellbox/neoforge-1.26.1.2/build/libs/qshop_sellbox-neoforge-26.1.2-1.5.0.jar')
 if (!sellboxJarFile.isFile()) {
     throw new GradleException('未找到 QShop SellBox 依赖 jar: ' + sellboxJarFile + '\n' +
-            '请先构建 D:\\projects\\q_shop_sellbox\\forge-1.20.1，或用 -Psellbox_jar=<path> 指定。')
+            '请先构建 D:\\projects\\q_shop_sellbox\\neoforge-1.26.1.2，或用 -Psellbox_jar=<path> 指定。')
 }
 
 dependencies {
@@ -80,7 +80,7 @@ tasks.named('processResources').configure {
 }
 
 jar {
-    archiveFileName = "${mod_id}-neoforge-1.21.1-${mod_version}.jar"
+    archiveFileName = "${mod_id}-neoforge-26.1.2-${mod_version}.jar"
     manifest {
         attributes([
                 'Specification-Title': mod_id,
@@ -101,5 +101,5 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-    options.release = 21
+    options.release = 25
 }

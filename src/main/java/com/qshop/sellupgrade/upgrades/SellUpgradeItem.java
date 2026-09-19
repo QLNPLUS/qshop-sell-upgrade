@@ -4,6 +4,7 @@ import net.p3pp3rf1y.sophisticatedcore.upgrades.IUpgradeCountLimitConfig;
 import net.p3pp3rf1y.sophisticatedcore.upgrades.UpgradeItemBase;
 import net.p3pp3rf1y.sophisticatedcore.upgrades.UpgradeType;
 import net.p3pp3rf1y.sophisticatedcore.upgrades.IUpgradeItem.UpgradeConflictDefinition;
+import net.minecraft.world.item.Item;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -14,7 +15,7 @@ public class SellUpgradeItem extends UpgradeItemBase<SellUpgradeWrapper> {
 
     private static final IUpgradeCountLimitConfig LIMIT_CONFIG = new IUpgradeCountLimitConfig() {
         @Override
-        public int getMaxUpgradesPerStorage(String storageType, @Nullable net.minecraft.resources.ResourceLocation upgradeRegistryName) {
+        public int getMaxUpgradesPerStorage(String storageType, @Nullable net.minecraft.resources.Identifier upgradeRegistryName) {
             return 1;
         }
 
@@ -25,7 +26,7 @@ public class SellUpgradeItem extends UpgradeItemBase<SellUpgradeWrapper> {
     };
 
     public SellUpgradeItem() {
-        super(LIMIT_CONFIG);
+        super(LIMIT_CONFIG, new Item.Properties());
     }
 
     public int getFilterSlotCount() {

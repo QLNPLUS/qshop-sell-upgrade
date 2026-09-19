@@ -39,7 +39,7 @@ public final class ModItems {
 
         UpgradeContainerRegistry.register(SELL_UPGRADE.getId(), SELL_UPGRADE_CONTAINER_TYPE);
         UpgradeContainerRegistry.register(ADVANCED_SELL_UPGRADE.getId(), ADVANCED_SELL_UPGRADE_CONTAINER_TYPE);
-        if (FMLEnvironment.dist == Dist.CLIENT) {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
             ClientSetup.register();
         }
     }
