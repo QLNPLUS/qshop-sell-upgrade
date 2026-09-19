@@ -8,7 +8,7 @@ import net.p3pp3rf1y.sophisticatedcore.upgrades.IUpgradeItem.UpgradeConflictDefi
 import javax.annotation.Nullable;
 import java.util.List;
 
-public final class SellUpgradeItem extends UpgradeItemBase<SellUpgradeWrapper> {
+public class SellUpgradeItem extends UpgradeItemBase<SellUpgradeWrapper> {
     public static final int FILTER_SLOTS = 9;
     public static final UpgradeType<SellUpgradeWrapper> TYPE = new UpgradeType<>(SellUpgradeWrapper::new);
 
@@ -26,6 +26,10 @@ public final class SellUpgradeItem extends UpgradeItemBase<SellUpgradeWrapper> {
 
     public SellUpgradeItem() {
         super(LIMIT_CONFIG);
+    }
+
+    public int getFilterSlotCount() {
+        return FILTER_SLOTS;
     }
 
     @Override

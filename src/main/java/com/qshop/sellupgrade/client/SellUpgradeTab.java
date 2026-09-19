@@ -34,12 +34,12 @@ final class SellUpgradeTab extends UpgradeSettingsTab<ContentsFilteredUpgradeCon
     private final ContentsFilterControl filterLogicControl;
 
     SellUpgradeTab(ContentsFilteredUpgradeContainer<SellUpgradeWrapper> container, Position position,
-                   StorageScreenBase<?> screen) {
+                   StorageScreenBase<?> screen, int slotsPerRow, String upgradeName) {
         super(container, position, screen,
-                Component.translatable("gui.qshop_sell_upgrade.upgrades.sell"),
-                Component.translatable("gui.qshop_sell_upgrade.upgrades.sell.tooltip"));
+                Component.translatable("gui.qshop_sell_upgrade.upgrades." + upgradeName),
+                Component.translatable("gui.qshop_sell_upgrade.upgrades." + upgradeName + ".tooltip"));
         filterLogicControl = addHideableChild(new ContentsFilterControl.Basic(screen,
-                new Position(x + 3, y + 24), getContainer().getFilterLogicContainer(), 3, FILTER_TYPE_BUTTON));
+                new Position(x + 3, y + 24), getContainer().getFilterLogicContainer(), slotsPerRow, FILTER_TYPE_BUTTON));
     }
 
     @Override

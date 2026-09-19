@@ -26,7 +26,10 @@ public final class SellUpgradeWrapper extends UpgradeWrapperBase<SellUpgradeWrap
 
     public SellUpgradeWrapper(IStorageWrapper storageWrapper, ItemStack upgrade, Consumer<ItemStack> upgradeSaveHandler) {
         super(storageWrapper, upgrade, upgradeSaveHandler);
-        filterLogic = new ContentsFilterLogic(upgrade, stack -> save(), SellUpgradeItem.FILTER_SLOTS,
+        int filterSlotCount = upgrade.getItem() instanceof SellUpgradeItem sellUpgradeItem
+                ? sellUpgradeItem.getFilterSlotCount()
+                : SellUpgradeItem.FILTER_SLOTS;
+        filterLogic = new ContentsFilterLogic(upgrade, stack -> save(), filterSlotCount,
                 storageWrapper::getInventoryHandler,
                 storageWrapper.getSettingsHandler().getTypeCategory(MemorySettingsCategory.class));
     }

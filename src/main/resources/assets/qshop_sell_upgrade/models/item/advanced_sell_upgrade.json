@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "qshop_sell_upgrade:item/advanced_sell_upgrade"
+  }
+}
