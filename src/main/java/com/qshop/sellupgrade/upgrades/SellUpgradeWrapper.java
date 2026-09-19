@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.p3pp3rf1y.sophisticatedcore.api.IStorageWrapper;
+import net.p3pp3rf1y.sophisticatedcore.init.ModCoreDataComponents;
 import net.p3pp3rf1y.sophisticatedcore.settings.memory.MemorySettingsCategory;
 import net.p3pp3rf1y.sophisticatedcore.upgrades.ContentsFilterLogic;
 import net.p3pp3rf1y.sophisticatedcore.upgrades.IContentsFilteredUpgrade;
@@ -31,7 +32,8 @@ public final class SellUpgradeWrapper extends UpgradeWrapperBase<SellUpgradeWrap
                 : SellUpgradeItem.FILTER_SLOTS;
         filterLogic = new ContentsFilterLogic(upgrade, stack -> save(), filterSlotCount,
                 storageWrapper::getInventoryHandler,
-                storageWrapper.getSettingsHandler().getTypeCategory(MemorySettingsCategory.class));
+                storageWrapper.getSettingsHandler().getTypeCategory(MemorySettingsCategory.class),
+                ModCoreDataComponents.FILTER_ATTRIBUTES);
     }
 
     @Override
