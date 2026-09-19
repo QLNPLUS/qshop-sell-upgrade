@@ -16,7 +16,7 @@ public final class QShopSellUpgradeMod {
 
     public QShopSellUpgradeMod(IEventBus modEventBus, ModContainer modContainer) {
         ModItems.ITEMS.register(modEventBus);
-        modEventBus.addListener(ModItems::registerContainers);
+        modEventBus.addListener(ModItems::buildCreativeTabContents);
         NeoForge.EVENT_BUS.register(new PickupContextEvents());
     }
 }
