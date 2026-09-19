@@ -8,6 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -42,5 +43,14 @@ public final class ModItems {
         if (FMLEnvironment.dist == Dist.CLIENT) {
             ClientSetup.register();
         }
+    }
+
+    public static void buildCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTab() != net.p3pp3rf1y.sophisticatedbackpacks.init.ModItems.CREATIVE_TAB.get()) {
+            return;
+        }
+
+        event.accept(SELL_UPGRADE);
+        event.accept(ADVANCED_SELL_UPGRADE);
     }
 }
