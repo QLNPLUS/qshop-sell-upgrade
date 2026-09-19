@@ -1,0 +1,88 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+}
+
+group = 'com.qshop'
+version = '0.1.0'
+base { archivesName = 'qshop-sell-upgrade-forge-1.20.1' }
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                qshop_sell_upgrade { source sourceSets.main }
+            }
+        }
+        client {}
+        server {}
+    }
+}
+
+repositories {
+    maven { url = 'https://maven.minecraftforge.net' }
+    mavenCentral()
+    maven { url = 'https://www.cursemaven.com' }
+    maven { url = 'https://maven.pkg.github.com/P3pp3rF1y/SophisticatedCore' }
+}
+
+def qshopJarFile = file(findProperty('qshop_jar') ?:
+        '../../q_shop/forge-1.20.1/build/libs/qshop-forge-1.20.1-1.8.0.jar')
+if (!qshopJarFile.isFile()) {
+    throw new GradleException('未找到 QShop 依赖 jar: ' + qshopJarFile + '\n' +
+            '请先构建 D:\\projects\\q_shop\\forge-1.20.1，或用 -Pqshop_jar=<path> 指定。')
+}
+
+def sellboxJarFile = file(findProperty('sellbox_jar') ?:
+        '../../q_shop_sellbox/forge-1.20.1/build/libs/qshop-sellbox-forge-1.20.1-1.5.0.jar')
+if (!sellboxJarFile.isFile()) {
+    throw new GradleException('未找到 QShop SellBox 依赖 jar: ' + sellboxJarFile + '\n' +
+            '请先构建 D:\\projects\\q_shop_sellbox\\forge-1.20.1，或用 -Psellbox_jar=<path> 指定。')
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.1-47.4.20'
+
+    compileOnly fg.deobf(files(qshopJarFile))
+    compileOnly fg.deobf(files(sellboxJarFile))
+
+    compileOnly fg.deobf('curse.maven:sophisticated-backpacks-422301:8687830')
+    runtimeOnly fg.deobf('curse.maven:sophisticated-backpacks-422301:8687830')
+    compileOnly fg.deobf('curse.maven:sophisticated-core-618298:8705513')
+    runtimeOnly fg.deobf('curse.maven:sophisticated-core-618298:8705513')
+}
+
+tasks.withType(JavaCompile).configureEach { it.options.encoding = 'UTF-8' }
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching(['META-INF/mods.toml']) {
+        expand version: project.version
+    }
+}
+
+jar {
+    manifest {
+        attributes([
+                'Specification-Title': 'qshop_sell_upgrade',
+                'Specification-Vendor': 'qshop',
+                'Specification-Version': '1',
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.jar.archiveVersion
+        ])
+    }
+    finalizedBy 'reobfJar'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) { artifact jar }
+    }
+}
