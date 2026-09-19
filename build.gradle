@@ -1,88 +1,105 @@
 plugins {
-    id 'eclipse'
+    id 'java-library'
     id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+    id 'net.neoforged.moddev' version '2.0.141'
 }
 
-group = 'com.qshop'
-version = '0.1.0'
-base { archivesName = 'qshop-sell-upgrade-forge-1.20.1' }
+version = mod_version
+group = mod_group_id
+base { archivesName = "qshop-sell-upgrade-neoforge-1.21.1" }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
-minecraft {
-    mappings channel: 'official', version: '1.20.1'
+neoForge {
+    version = neo_version
+
     runs {
+        client { client() }
+        server { server() }
         configureEach {
-            workingDirectory project.file('run')
-            property 'forge.logging.console.level', 'debug'
-            mods {
-                qshop_sell_upgrade { source sourceSets.main }
-            }
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            logLevel = org.slf4j.event.Level.DEBUG
         }
-        client {}
-        server {}
+    }
+
+    mods {
+        "${mod_id}" { sourceSet sourceSets.main }
     }
 }
 
 repositories {
-    maven { url = 'https://maven.minecraftforge.net' }
+    maven { name = 'NeoForge'; url = 'https://maven.neoforged.net/releases/' }
     mavenCentral()
-    maven { url = 'https://www.cursemaven.com' }
-    maven { url = 'https://maven.pkg.github.com/P3pp3rF1y/SophisticatedCore' }
+    maven { name = 'Modrinth'; url = 'https://api.modrinth.com/maven' }
 }
 
 def qshopJarFile = file(findProperty('qshop_jar') ?:
-        '../../q_shop/forge-1.20.1/build/libs/qshop-forge-1.20.1-1.8.0.jar')
+        '../../q_shop/neoforge-1.21.1/build/libs/qshop-neoforge-1.21.1-1.8.1.jar')
 if (!qshopJarFile.isFile()) {
     throw new GradleException('未找到 QShop 依赖 jar: ' + qshopJarFile + '\n' +
             '请先构建 D:\\projects\\q_shop\\forge-1.20.1，或用 -Pqshop_jar=<path> 指定。')
 }
 
 def sellboxJarFile = file(findProperty('sellbox_jar') ?:
-        '../../q_shop_sellbox/forge-1.20.1/build/libs/qshop-sellbox-forge-1.20.1-1.5.0.jar')
+        '../../q_shop_sellbox/neoforge-1.21.1/build/libs/qshop_sellbox-neoforge-1.21.1-1.5.0.jar')
 if (!sellboxJarFile.isFile()) {
     throw new GradleException('未找到 QShop SellBox 依赖 jar: ' + sellboxJarFile + '\n' +
             '请先构建 D:\\projects\\q_shop_sellbox\\forge-1.20.1，或用 -Psellbox_jar=<path> 指定。')
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.4.20'
-
-    compileOnly fg.deobf(files(qshopJarFile))
-    compileOnly fg.deobf(files(sellboxJarFile))
-
-    compileOnly fg.deobf('curse.maven:sophisticated-backpacks-422301:8687830')
-    runtimeOnly fg.deobf('curse.maven:sophisticated-backpacks-422301:8687830')
-    compileOnly fg.deobf('curse.maven:sophisticated-core-618298:8705513')
-    runtimeOnly fg.deobf('curse.maven:sophisticated-core-618298:8705513')
+    compileOnly files(qshopJarFile)
+    compileOnly files(sellboxJarFile)
+    compileOnly "maven.modrinth:sophisticated-core:${sophisticated_core_version}"
+    runtimeOnly "maven.modrinth:sophisticated-core:${sophisticated_core_version}"
+    compileOnly "maven.modrinth:sophisticated-backpacks:${sophisticated_backpacks_version}"
+    runtimeOnly "maven.modrinth:sophisticated-backpacks:${sophisticated_backpacks_version}"
 }
 
-tasks.withType(JavaCompile).configureEach { it.options.encoding = 'UTF-8' }
-
-processResources {
-    inputs.property 'version', project.version
-    filesMatching(['META-INF/mods.toml']) {
-        expand version: project.version
-    }
+tasks.named('processResources').configure {
+    def replaceProperties = [
+            minecraft_version: minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version: neo_version,
+            neo_version_range: neo_version_range,
+            loader_version_range: loader_version_range,
+            mod_id: mod_id,
+            mod_name: mod_name,
+            mod_license: mod_license,
+            mod_version: mod_version,
+            mod_authors: mod_authors,
+            mod_description: mod_description,
+            qshop_version_range: qshop_version_range,
+            sellbox_version_range: sellbox_version_range,
+            backpacks_version_range: backpacks_version_range,
+            core_version_range: core_version_range
+    ]
+    inputs.properties replaceProperties
+    filesMatching('META-INF/neoforge.mods.toml') { expand replaceProperties }
 }
 
 jar {
+    archiveFileName = "${mod_id}-neoforge-1.21.1-${mod_version}.jar"
     manifest {
         attributes([
-                'Specification-Title': 'qshop_sell_upgrade',
-                'Specification-Vendor': 'qshop',
+                'Specification-Title': mod_id,
+                'Specification-Vendor': mod_authors,
                 'Specification-Version': '1',
                 'Implementation-Title': project.name,
-                'Implementation-Version': project.jar.archiveVersion
+                'Implementation-Version': project.version,
+                'Implementation-Vendor': mod_authors
         ])
     }
-    finalizedBy 'reobfJar'
 }
 
 publishing {
     publications {
-        mavenJava(MavenPublication) { artifact jar }
+        register('mavenJava', MavenPublication) { from components.java }
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
 }
