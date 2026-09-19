@@ -1,18 +1,26 @@
 # QShop Sell Upgrade - multi-version worktree rules
 
-This repository uses one Git repository with one worktree per loader/version. The primary implementation is developed on the forge-1.20.1 branch; the NeoForge branches are reserved for later ports.
+This repository uses one Git repository with one worktree per loader/version. The primary implementation is developed on the forge-1.20.1 branch; the NeoForge branches contain loader-specific ports of the same feature.
 
 ## Branch Matrix
 
 | Branch | Worktree | Loader | Minecraft | JDK | Gradle | Build plugin | Status |
 |---|---|---|---|---|---|---|---|
 | forge-1.20.1 | D:\projects\q_shop_sell_upgrade\forge-1.20.1 | Forge | 1.20.1 | 17 | 8.1.1 | ForgeGradle 6.0.54 | primary, implemented first |
-| neoforge-1.21.1 | D:\projects\q_shop_sell_upgrade\neoforge-1.21.1 | NeoForge | 1.21.1 | 21 | 8.8 | ModDevGradle 2.0.141 | reserved |
-| neoforge-1.26.1.2 | D:\projects\q_shop_sell_upgrade\neoforge-1.26.1.2 | NeoForge | 26.1.2 (reserved branch name: 1.26.1.2) | 25 | 9.2.1 | ModDevGradle 2.0.146 | reserved |
+| neoforge-1.21.1 | D:\projects\q_shop_sell_upgrade\neoforge-1.21.1 | NeoForge | 1.21.1 | 21 | 8.8 | ModDevGradle 2.0.141 | build verified; runtime smoke pending |
+| neoforge-1.26.1.2 | D:\projects\q_shop_sell_upgrade\neoforge-1.26.1.2 | NeoForge | 26.1.2 (branch name: 1.26.1.2) | 25 | 9.2.1 | ModDevGradle 2.0.146 | build verified; runtime smoke pending |
 
 - The Forge worktree owns the .git directory. The other two are linked worktrees whose .git files point back to it.
-- All three branches were created from the same bootstrap commit. A branch is not considered implemented until its loader-specific build and runtime smoke test pass.
+- All three branches were created from the same bootstrap commit. A branch is considered build-ready only after its loader-specific build passes; runtime smoke status is recorded in the matrix.
 - Local worktree paths, local branch names, and future remote branch names must remain identical.
+
+## Runtime Dependency Matrix
+
+| Branch | Sophisticated Core | Sophisticated Backpacks | QShop | QShop SellBox |
+|---|---|---|---|---|
+| forge-1.20.1 | minimum 1.3.6.1514 | 3.23.x line | Forge 1.20.1 / 1.8.0 | Forge 1.20.1 / 1.5.0 |
+| neoforge-1.21.1 | 1.21.1-1.5.1.2341; mod range [1.21.1-1.5.1,1.21.2) | 1.21.1-3.26.3.2158 | NeoForge 1.21.1 / 1.8.1 | NeoForge 1.21.1 / 1.5.0 |
+| neoforge-1.26.1.2 | 26.1.2-1.5.0.2334; mod range [26.1.2-1.5.0,26.2) | 26.1.2-3.26.2.2156 | NeoForge 26.1.2 / 1.8.1 | NeoForge 26.1.2 / 1.5.0 |
 
 ## Cross-Version Changes
 
@@ -48,4 +56,3 @@ Use the version-specific Gradle wrapper and JDK paths:
 - JDK 25: C:\Program Files\Java\jdk-25.0.4.1
 
 Build version worktrees sequentially and keep each worktree's build, run, and generated output local to that worktree.
-
