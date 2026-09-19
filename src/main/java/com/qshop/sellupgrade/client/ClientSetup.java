@@ -14,6 +14,10 @@ public final class ClientSetup {
         UpgradeGuiManager.registerTab(ModItems.SELL_UPGRADE_CONTAINER_TYPE,
                 (ContentsFilteredUpgradeContainer<SellUpgradeWrapper> container, Position position,
                  net.p3pp3rf1y.sophisticatedcore.client.gui.StorageScreenBase<?> screen) ->
-                        new SellUpgradeTab(container, position, screen));
+                        new SellUpgradeTab(container, position, screen, 3, "sell"));
+        UpgradeGuiManager.registerTab(ModItems.ADVANCED_SELL_UPGRADE_CONTAINER_TYPE,
+                (ContentsFilteredUpgradeContainer<SellUpgradeWrapper> container, Position position,
+                 net.p3pp3rf1y.sophisticatedcore.client.gui.StorageScreenBase<?> screen) ->
+                        new SellUpgradeTab(container, position, screen, 4, "advanced_sell"));
     }
 }

@@ -1,7 +1,11 @@
 {
   "item.qshop_sell_upgrade.sell_upgrade": "Sell Upgrade",
-  "item.qshop_sell_upgrade.sell_upgrade.tooltip": "Sells priced picked-up items instead of storing them.",
+  "item.qshop_sell_upgrade.sell_upgrade.tooltip": "Automatically sells sellable items.",
+  "item.qshop_sell_upgrade.advanced_sell_upgrade": "Advanced Sell Upgrade",
+  "item.qshop_sell_upgrade.advanced_sell_upgrade.tooltip": "Automatically sells sellable items with more filter slots.",
   "gui.qshop_sell_upgrade.upgrades.sell": "Sell",
   "gui.qshop_sell_upgrade.upgrades.sell.tooltip": "Choose which priced items are sold.",
+  "gui.qshop_sell_upgrade.upgrades.advanced_sell": "Advanced Sell",
+  "gui.qshop_sell_upgrade.upgrades.advanced_sell.tooltip": "Choose which priced items are sold with more filter slots.",
   "gui.sophisticatedcore.upgrades.buttons.match_backpack_contents": "Match backpack contents"
 }

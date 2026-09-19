@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "qshop_sell_upgrade:sell_upgrade"
+    "qshop_sell_upgrade:sell_upgrade",
+    "qshop_sell_upgrade:advanced_sell_upgrade"
   ]
 }
