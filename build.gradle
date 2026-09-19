@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.qshop'
-version = '0.1.0'
+version = findProperty('mod_version') ?: '0.1.0'
 base { archivesName = 'qshop-sell-upgrade-forge-1.20.1' }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
