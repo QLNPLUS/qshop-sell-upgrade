@@ -1,42 +1,42 @@
 # QShop Sell Upgrade
 
-QShop Sell Upgrade 是精妙背包（Sophisticated Backpacks）的自动出售升级插件。
+QShop Sell Upgrade adds automatic selling upgrades for Sophisticated Backpacks.
 
-当精妙背包吸入物品时，插件会读取 QShop Sell Box 的价格规则。物品有有效售价，并且符合升级的过滤模式时，物品不会进入背包，而是直接转换为 QShop 提供的货币。
+When Sophisticated Backpacks picks up an item, the mod checks the price rules provided by QShop Sell Box. If the item has a valid price and matches the upgrade filter mode, it is converted directly into QShop currency instead of being inserted into the backpack.
 
-## 功能
+## Features
 
-- 自动出售有价格的拾取物品。
-- 支持白名单和黑名单模式。
-- 普通售卖升级提供 3x3 个筛选格。
-- 高级售卖升级提供 4x4 共 16 个筛选格。
-- 两个升级均加入精妙背包的创造模式物品分页。
-- 支持 Forge 1.20.1、NeoForge 1.21.1 和 NeoForge 26.1.2 分支。
+- Automatically sells picked-up items with a valid price.
+- Supports whitelist and blacklist modes.
+- Sell Upgrade provides a 3x3 filter grid.
+- Advanced Sell Upgrade provides a 4x4 filter grid with 16 slots.
+- Both upgrades are listed in the Sophisticated Backpacks creative tab.
+- Separate branches for Forge 1.20.1, NeoForge 1.21.1, and NeoForge 26.1.2.
 
-## 使用
+## Usage
 
-1. 将售卖升级或高级售卖升级安装到精妙背包。
-2. 在升级设置页面选择白名单或黑名单模式。
-3. 将物品放入筛选格，并让背包吸入物品。
-4. 符合价格和过滤条件的物品会被自动出售，不再占用背包空间。
+1. Install Sell Upgrade or Advanced Sell Upgrade into a Sophisticated Backpack.
+2. Select whitelist or blacklist mode in the upgrade settings.
+3. Place items in the filter slots and let the backpack pick up items.
+4. Items matching the price and filter rules are sold automatically instead of occupying backpack space.
 
-默认模式为黑名单模式。黑名单为空时，所有有有效售价的物品都可以自动出售。
+The default mode is blacklist mode. With an empty blacklist, every item with a valid price can be sold automatically.
 
-## 依赖
+## Dependencies
 
 - QShop
 - QShop Sell Box
 - Sophisticated Backpacks
-- Sophisticated Core（最低要求按对应版本分支配置；Forge 1.20.1 最低为 1.3.6.1514）
+- Sophisticated Core (the minimum version depends on the Minecraft branch; Forge 1.20.1 requires at least 1.3.6.1514)
 
-## 合成
+## Recipes
 
-售卖升级使用自动售货箱、空白升级和铁锭合成。高级售卖升级使用箱子、售卖升级和铁锭合成。具体配方以对应版本 JAR 内的配方文件为准。
+Sell Upgrade is crafted with an Automatic Sell Box, Blank Upgrade, and iron ingots. Advanced Sell Upgrade is crafted with a chest, Sell Upgrade, and iron ingots. The exact recipes are included in the corresponding mod JAR.
 
-## 问题反馈
+## Issues
 
-请在 GitHub Issues（https://github.com/QLNPLUS/qshop-sell-upgrade/issues）提交问题，并附上 Minecraft 版本、加载器版本、相关依赖版本和日志片段。
+Report issues on [GitHub Issues](https://github.com/QLNPLUS/qshop-sell-upgrade/issues) and include the Minecraft version, loader version, dependency versions, and relevant log output.
 
-## 许可
+## License
 
-All Rights Reserved（ARR）。未经版权所有者书面许可，不得复制、修改、再发布、再许可或商业使用本项目及其源代码。
+All Rights Reserved (ARR). The project and its source code may not be copied, modified, redistributed, sublicensed, or commercially used without prior written permission.
