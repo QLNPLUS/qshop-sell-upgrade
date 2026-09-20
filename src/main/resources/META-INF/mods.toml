@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/QLNPLUS/qshop-sell-upgrade/issues"
 
 [[mods]]
 modId="qshop_sell_upgrade"
-version="1.0.0"
+version="1.0.1"
 displayName="QShop Sell Upgrade"
 authors="QShop"
 description='''
