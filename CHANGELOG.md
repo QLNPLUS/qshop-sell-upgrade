@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1
+
+- Fixed the Sell Upgrade and Advanced Sell Upgrade textures.
+- Removed both upgrades from the Sophisticated Backpacks upgrade tag.
+
 ## 1.0.0
 
 - Initial release of QShop Sell Upgrade.
