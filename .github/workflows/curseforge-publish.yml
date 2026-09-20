@@ -82,8 +82,8 @@ jobs:
           test -n "$qshop_jar"
           jar tf "$qshop_jar" | grep -q 'com/qshop/api/QShopAddonApi.class'
           echo "QSHOP_JAR=$qshop_jar" >> "$GITHUB_ENV"
-          mkdir -p "$GITHUB_WORKSPACE/../../q_shop/forge-1.20.1/build/libs"
-          cp "$qshop_jar" "$GITHUB_WORKSPACE/../../q_shop/forge-1.20.1/build/libs/qshop-forge-1.20.1-1.7.0.jar"
+          mkdir -p "$GITHUB_WORKSPACE/../q_shop/forge-1.20.1/build/libs"
+          cp "$qshop_jar" "$GITHUB_WORKSPACE/../q_shop/forge-1.20.1/build/libs/qshop-forge-1.20.1-1.7.0.jar"
           (cd q_shop_sellbox && ./gradlew build --no-daemon)
           sellbox_jar="$(find "$GITHUB_WORKSPACE/q_shop_sellbox/build/libs" -maxdepth 1 -type f -name '*.jar' ! -name '*-sources.jar' ! -name '*-dev.jar' -print -quit)"
           test -n "$sellbox_jar"
@@ -182,8 +182,8 @@ jobs:
           test -n "$qshop_jar"
           jar tf "$qshop_jar" | grep -q 'com/qshop/api/QShopAddonApi.class'
           echo "QSHOP_JAR=$qshop_jar" >> "$GITHUB_ENV"
-          mkdir -p "$GITHUB_WORKSPACE/../../q_shop/neoforge-1.21.1/build/libs"
-          cp "$qshop_jar" "$GITHUB_WORKSPACE/../../q_shop/neoforge-1.21.1/build/libs/qshop-neoforge-1.21.1-1.7.0.jar"
+          mkdir -p "$GITHUB_WORKSPACE/../q_shop/neoforge-1.21.1/build/libs"
+          cp "$qshop_jar" "$GITHUB_WORKSPACE/../q_shop/neoforge-1.21.1/build/libs/qshop-neoforge-1.21.1-1.7.0.jar"
           (cd q_shop_sellbox && ./gradlew build --no-daemon)
           sellbox_jar="$(find "$GITHUB_WORKSPACE/q_shop_sellbox/build/libs" -maxdepth 1 -type f -name '*.jar' ! -name '*-sources.jar' ! -name '*-dev.jar' -print -quit)"
           test -n "$sellbox_jar"
@@ -285,8 +285,8 @@ jobs:
           test -n "$qshop_jar"
           jar tf "$qshop_jar" | grep -q 'com/qshop/api/QShopAddonApi.class'
           echo "QSHOP_JAR=$qshop_jar" >> "$GITHUB_ENV"
-          mkdir -p "$GITHUB_WORKSPACE/../../q_shop/neoforge-1.26.1.2/build/libs"
-          cp "$qshop_jar" "$GITHUB_WORKSPACE/../../q_shop/neoforge-1.26.1.2/build/libs/qshop-neoforge-26.1.2-1.7.1.jar"
+          mkdir -p "$GITHUB_WORKSPACE/../q_shop/neoforge-1.26.1.2/build/libs"
+          cp "$qshop_jar" "$GITHUB_WORKSPACE/../q_shop/neoforge-1.26.1.2/build/libs/qshop-neoforge-26.1.2-1.7.1.jar"
           (cd q_shop_sellbox && ./gradlew build --no-daemon)
           sellbox_jar="$(find "$GITHUB_WORKSPACE/q_shop_sellbox/build/libs" -maxdepth 1 -type f -name '*.jar' ! -name '*-sources.jar' ! -name '*-dev.jar' -print -quit)"
           test -n "$sellbox_jar"
