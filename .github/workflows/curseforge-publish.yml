@@ -78,7 +78,8 @@ jobs:
         run: |
           chmod +x q_shop/gradlew q_shop_sellbox/gradlew
           (cd q_shop && ./gradlew build --no-daemon)
-          (cd q_shop_sellbox && ./gradlew build --no-daemon)
+          (cd q_shop_sellbox && ./gradlew build --no-daemon \
+            -Pqshop_jar="$GITHUB_WORKSPACE/q_shop/build/libs/qshop-forge-1.20.1-1.8.0.jar")
 
       - name: Build mod
         run: |
@@ -169,7 +170,8 @@ jobs:
         run: |
           chmod +x q_shop/gradlew q_shop_sellbox/gradlew
           (cd q_shop && ./gradlew build --no-daemon)
-          (cd q_shop_sellbox && ./gradlew build --no-daemon)
+          (cd q_shop_sellbox && ./gradlew build --no-daemon \
+            -Pqshop_jar="$GITHUB_WORKSPACE/q_shop/build/libs/qshop-neoforge-1.21.1-1.8.1.jar")
 
       - name: Build mod
         run: |
@@ -263,7 +265,8 @@ jobs:
         run: |
           chmod +x q_shop/gradlew q_shop_sellbox/gradlew
           (cd q_shop && ./gradlew build --no-daemon)
-          (cd q_shop_sellbox && ./gradlew build --no-daemon)
+          (cd q_shop_sellbox && ./gradlew build --no-daemon \
+            -Pqshop_jar="$GITHUB_WORKSPACE/q_shop/build/libs/qshop-neoforge-26.1.2-1.8.1.jar")
 
       - name: Build mod
         run: |
