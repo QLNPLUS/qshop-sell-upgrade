@@ -85,7 +85,7 @@ jobs:
           mkdir -p "$GITHUB_WORKSPACE/../q_shop/forge-1.20.1/build/libs"
           cp "$qshop_jar" "$GITHUB_WORKSPACE/../q_shop/forge-1.20.1/build/libs/qshop-forge-1.20.1-1.7.0.jar"
           sed -i "/^configurations {/i sourceSets.main.compileClasspath += files(findProperty('qshop_jar'))" q_shop_sellbox/build.gradle
-          (cd q_shop_sellbox && ./gradlew build --no-daemon)
+          (cd q_shop_sellbox && ./gradlew build --no-daemon -Pqshop_jar="$qshop_jar")
           sellbox_jar="$(find "$GITHUB_WORKSPACE/q_shop_sellbox/build/libs" -maxdepth 1 -type f -name '*.jar' ! -name '*-sources.jar' ! -name '*-dev.jar' -print -quit)"
           test -n "$sellbox_jar"
           echo "SELLBOX_JAR=$sellbox_jar" >> "$GITHUB_ENV"
@@ -186,7 +186,7 @@ jobs:
           mkdir -p "$GITHUB_WORKSPACE/../q_shop/neoforge-1.21.1/build/libs"
           cp "$qshop_jar" "$GITHUB_WORKSPACE/../q_shop/neoforge-1.21.1/build/libs/qshop-neoforge-1.21.1-1.7.0.jar"
           sed -i "/^configurations {/i sourceSets.main.compileClasspath += files(findProperty('qshop_jar'))" q_shop_sellbox/build.gradle
-          (cd q_shop_sellbox && ./gradlew build --no-daemon)
+          (cd q_shop_sellbox && ./gradlew build --no-daemon -Pqshop_jar="$qshop_jar")
           sellbox_jar="$(find "$GITHUB_WORKSPACE/q_shop_sellbox/build/libs" -maxdepth 1 -type f -name '*.jar' ! -name '*-sources.jar' ! -name '*-dev.jar' -print -quit)"
           test -n "$sellbox_jar"
           echo "SELLBOX_JAR=$sellbox_jar" >> "$GITHUB_ENV"
@@ -290,7 +290,7 @@ jobs:
           mkdir -p "$GITHUB_WORKSPACE/../q_shop/neoforge-1.26.1.2/build/libs"
           cp "$qshop_jar" "$GITHUB_WORKSPACE/../q_shop/neoforge-1.26.1.2/build/libs/qshop-neoforge-26.1.2-1.7.1.jar"
           sed -i "/^configurations {/i sourceSets.main.compileClasspath += files(findProperty('qshop_jar'))" q_shop_sellbox/build.gradle
-          (cd q_shop_sellbox && ./gradlew build --no-daemon)
+          (cd q_shop_sellbox && ./gradlew build --no-daemon -Pqshop_jar="$qshop_jar")
           sellbox_jar="$(find "$GITHUB_WORKSPACE/q_shop_sellbox/build/libs" -maxdepth 1 -type f -name '*.jar' ! -name '*-sources.jar' ! -name '*-dev.jar' -print -quit)"
           test -n "$sellbox_jar"
           echo "SELLBOX_JAR=$sellbox_jar" >> "$GITHUB_ENV"
