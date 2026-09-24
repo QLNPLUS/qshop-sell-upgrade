@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/QLNPLUS/qshop-sell-upgrade/issues"
 
 [[mods]]
 modId="qshop_sell_upgrade"
-version="1.0.1"
+version="${version}"
 displayName="QShop Sell Upgrade"
 authors="QShop"
 description='''
@@ -37,6 +37,20 @@ side="BOTH"
 modId="qshop_sellbox"
 mandatory=true
 versionRange="[1.0.0,2.0)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.qshop_sell_upgrade]]
+modId="confluence"
+mandatory=false
+versionRange="[1.2.0,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.qshop_sell_upgrade]]
+modId="qshop_confluence"
+mandatory=false
+versionRange="[1.0.0,)"
 ordering="AFTER"
 side="BOTH"
 
