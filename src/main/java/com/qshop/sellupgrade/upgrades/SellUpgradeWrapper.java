@@ -3,8 +3,8 @@ package com.qshop.sellupgrade.upgrades;
 import com.qshop.api.CurrencyService;
 import com.qshop.api.QShopAddonApi;
 import com.qshop.sellbox.PriceQuote;
-import com.qshop.sellbox.SellBoxPrices;
 import com.qshop.sellupgrade.QShopSellUpgradeMod;
+import com.qshop.sellupgrade.compat.ConfluenceCurrencyCombatCompat;
 import com.qshop.sellupgrade.events.PickupContext;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -47,7 +47,7 @@ public final class SellUpgradeWrapper extends UpgradeWrapperBase<SellUpgradeWrap
             return stack;
         }
 
-        PriceQuote quote = SellBoxPrices.resolve(stack);
+        PriceQuote quote = ConfluenceCurrencyCombatCompat.resolve(stack);
         if (quote == null || quote.currency() == null || quote.currency().isBlank()
                 || !Double.isFinite(quote.price()) || quote.price() <= 0) {
             return stack;

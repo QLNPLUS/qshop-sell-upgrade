@@ -3,6 +3,8 @@
 ## 1.1.0
 
 - Fixed Sell Upgrade and Advanced Sell Upgrade being rejected by Sophisticated Backpacks.
+- Added optional Confluence Currency Combat price compatibility.
+- Updated the resource pack version for Minecraft 1.21.1.
 
 ## 1.0.1
 
