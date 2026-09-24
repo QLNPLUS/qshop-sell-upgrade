@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+
+- Fixed Sell Upgrade and Advanced Sell Upgrade being rejected by Sophisticated Backpacks.
+
 ## 1.0.1
 
 - Fixed the Sell Upgrade and Advanced Sell Upgrade textures.
