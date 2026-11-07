@@ -48,13 +48,33 @@ if (!sellboxJarFile.isFile()) {
             '请先构建 D:\\projects\\q_shop_sellbox\\neoforge-1.21.1，或用 -Psellbox_jar=<path> 指定。')
 }
 
+def localCoreJar = findProperty('sophisticated_core_jar')
+def localBackpacksJar = findProperty('sophisticated_backpacks_jar')
+
 dependencies {
     compileOnly files(qshopJarFile)
     compileOnly files(sellboxJarFile)
-    compileOnly "maven.modrinth:sophisticated-core:${sophisticated_core_version}"
-    runtimeOnly "maven.modrinth:sophisticated-core:${sophisticated_core_version}"
-    compileOnly "maven.modrinth:sophisticated-backpacks:${sophisticated_backpacks_version}"
-    runtimeOnly "maven.modrinth:sophisticated-backpacks:${sophisticated_backpacks_version}"
+    if (localCoreJar) {
+        compileOnly files(localCoreJar)
+        runtimeOnly files(localCoreJar)
+    } else {
+        compileOnly "maven.modrinth:sophisticated-core:${sophisticated_core_version}"
+        runtimeOnly "maven.modrinth:sophisticated-core:${sophisticated_core_version}"
+    }
+    if (localBackpacksJar) {
+        compileOnly files(localBackpacksJar)
+        runtimeOnly files(localBackpacksJar)
+    } else {
+        compileOnly "maven.modrinth:sophisticated-backpacks:${sophisticated_backpacks_version}"
+        runtimeOnly "maven.modrinth:sophisticated-backpacks:${sophisticated_backpacks_version}"
+    }
+    compileOnly 'org.spongepowered:mixin:0.8.5'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    if (findProperty('dev_runtime_deps') == 'true') {
+        runtimeOnly files(qshopJarFile)
+        runtimeOnly files(sellboxJarFile)
+    }
 }
 
 tasks.named('processResources').configure {
@@ -88,7 +108,8 @@ jar {
                 'Specification-Version': '1',
                 'Implementation-Title': project.name,
                 'Implementation-Version': project.version,
-                'Implementation-Vendor': mod_authors
+                'Implementation-Vendor': mod_authors,
+                'MixinConfigs': "${mod_id}.mixins.json"
         ])
     }
 }
