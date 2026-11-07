@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0
+
+- The Magnet Upgrade now checks the Sell Upgrade in the same backpack before storing items it pulls in.
+- Fixed the mod failing to load with Sophisticated Core 1.5.1 because of an invalid version range.
+- Added Mixin support for Forge 1.20.1.
+
 ## 1.1.0
 
 - Fixed Sell Upgrade and Advanced Sell Upgrade being rejected by Sophisticated Backpacks.

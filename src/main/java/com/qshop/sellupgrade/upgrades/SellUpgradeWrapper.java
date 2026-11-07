@@ -36,11 +36,20 @@ public final class SellUpgradeWrapper extends UpgradeWrapperBase<SellUpgradeWrap
 
     @Override
     public ItemStack pickup(Level world, ItemStack stack, boolean simulate) {
+        return trySell(world, stack, PickupContext.currentPlayer(), simulate);
+    }
+
+    /**
+     * Attempts to sell the given stack for the supplied player. Used both by the regular item pickup flow and by
+     * the magnet upgrade, which inserts items into the backpack without going through {@link IPickupResponseUpgrade}s.
+     *
+     * @return {@link ItemStack#EMPTY} when the stack was sold, otherwise the original stack
+     */
+    public ItemStack trySell(Level world, ItemStack stack, ServerPlayer player, boolean simulate) {
         if (!isEnabled() || world.isClientSide || !filterLogic.matchesFilter(stack)) {
             return stack;
         }
 
-        ServerPlayer player = PickupContext.currentPlayer();
         if (player == null || player.level() != world) {
             return stack;
         }

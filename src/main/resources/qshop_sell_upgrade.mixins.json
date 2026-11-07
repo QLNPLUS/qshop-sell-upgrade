@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.qshop.sellupgrade.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "qshop_sell_upgrade.refmap.json",
+  "mixins": [
+    "MagnetUpgradeWrapperMixin",
+    "UpgradeWrapperBaseMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

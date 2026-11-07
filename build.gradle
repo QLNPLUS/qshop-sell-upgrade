@@ -1,9 +1,21 @@
+buildscript {
+    repositories {
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+    }
+}
+
 plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
 }
+
+apply plugin: 'org.spongepowered.mixin'
 
 group = 'com.qshop'
 version = findProperty('mod_version') ?: '1.1.0'
@@ -17,6 +29,8 @@ minecraft {
         configureEach {
             workingDirectory project.file('run')
             property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             mods {
                 qshop_sell_upgrade { source sourceSets.main }
             }
@@ -26,11 +40,20 @@ minecraft {
     }
 }
 
+mixin {
+    add sourceSets.main, 'qshop_sell_upgrade.refmap.json'
+    config 'qshop_sell_upgrade.mixins.json'
+}
+
 repositories {
     maven { url = 'https://maven.minecraftforge.net' }
     mavenCentral()
     maven { url = 'https://www.cursemaven.com' }
     maven { url = 'https://maven.pkg.github.com/P3pp3rF1y/SophisticatedCore' }
+    if (findProperty('dev_local_deps') == 'true') {
+        flatDir { dirs '../../q_shop/forge-1.20.1/build/libs' }
+        flatDir { dirs '../../q_shop_sellbox/forge-1.20.1/build/libs' }
+    }
 }
 
 def qshopJarFile = file(findProperty('qshop_jar') ?:
@@ -57,6 +80,17 @@ dependencies {
     runtimeOnly fg.deobf('curse.maven:sophisticated-backpacks-422301:8687830')
     compileOnly fg.deobf('curse.maven:sophisticated-core-618298:8705513')
     runtimeOnly fg.deobf('curse.maven:sophisticated-core-618298:8705513')
+
+    compileOnly 'org.spongepowered:mixin:0.8.5'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    if (findProperty('dev_local_deps') == 'true') {
+        runtimeOnly fg.deobf('qshop:qshop-forge-1.20.1:1.8.0')
+        runtimeOnly fg.deobf('qshop_sellbox:qshop-sellbox-forge-1.20.1:1.5.0')
+    } else if (findProperty('dev_runtime_deps') == 'true') {
+        runtimeOnly files(qshopJarFile)
+        runtimeOnly files(sellboxJarFile)
+    }
 }
 
 tasks.withType(JavaCompile).configureEach { it.options.encoding = 'UTF-8' }
@@ -75,7 +109,8 @@ jar {
                 'Specification-Vendor': 'qshop',
                 'Specification-Version': '1',
                 'Implementation-Title': project.name,
-                'Implementation-Version': project.jar.archiveVersion
+                'Implementation-Version': project.jar.archiveVersion,
+                'MixinConfigs': 'qshop_sell_upgrade.mixins.json'
         ])
     }
     finalizedBy 'reobfJar'
