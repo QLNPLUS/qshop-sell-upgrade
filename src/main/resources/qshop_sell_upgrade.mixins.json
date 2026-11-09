@@ -4,6 +4,7 @@
   "package": "com.qshop.sellupgrade.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "InventoryHelperMixin",
     "MagnetUpgradeWrapperMixin",
     "UpgradeWrapperBaseMixin"
   ],

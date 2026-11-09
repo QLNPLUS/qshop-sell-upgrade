@@ -7,5 +7,9 @@
   "gui.qshop_sell_upgrade.upgrades.sell.tooltip": "Choose which priced items are sold.",
   "gui.qshop_sell_upgrade.upgrades.advanced_sell": "Advanced Sell",
   "gui.qshop_sell_upgrade.upgrades.advanced_sell.tooltip": "Choose which priced items are sold with more filter slots.",
-  "gui.sophisticatedcore.upgrades.buttons.match_backpack_contents": "Match backpack contents"
+  "gui.sophisticatedcore.upgrades.buttons.match_backpack_contents": "Match backpack contents",
+  "message.qshop_sell_upgrade.bound": "Sell Upgrade bound to %s",
+  "message.qshop_sell_upgrade.unbound": "Sell Upgrade unbound",
+  "tooltip.qshop_sell_upgrade.bound_player": "Bound player: %s",
+  "tooltip.qshop_sell_upgrade.unbound": "Not bound"
 }

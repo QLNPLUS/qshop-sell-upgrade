@@ -7,5 +7,9 @@
   "gui.qshop_sell_upgrade.upgrades.sell.tooltip": "选择要直接出售的有价物品。",
   "gui.qshop_sell_upgrade.upgrades.advanced_sell": "高级自动售卖",
   "gui.qshop_sell_upgrade.upgrades.advanced_sell.tooltip": "选择要直接出售的有价物品，拥有更多筛选格。",
-  "gui.sophisticatedcore.upgrades.buttons.match_backpack_contents": "匹配背包内容"
+  "gui.sophisticatedcore.upgrades.buttons.match_backpack_contents": "匹配背包内容",
+  "message.qshop_sell_upgrade.bound": "出售升级已绑定到 %s",
+  "message.qshop_sell_upgrade.unbound": "出售升级已解绑",
+  "tooltip.qshop_sell_upgrade.bound_player": "已绑定玩家：%s",
+  "tooltip.qshop_sell_upgrade.unbound": "未绑定"
 }
