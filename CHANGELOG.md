@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.1
+
+- Sell Upgrade can now be bound to a player by sneak-right-clicking the upgrade item.
+- Bound upgrades sell items inserted by hoppers, pipes, and manual insertion, depositing to the bound player even when offline.
+- The Sell Upgrade now intercepts storage insertions, making selling independent of pickup upgrade order.
+- Items already inside the backpack are not sold automatically.
+
 ## 1.2.0
 
 - The Magnet Upgrade now checks the Sell Upgrade in the same backpack before storing items it pulls in.

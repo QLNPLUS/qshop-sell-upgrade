@@ -59,7 +59,7 @@ public abstract class MagnetUpgradeWrapperMixin {
 
         for (SellUpgradeWrapper sellUpgrade : ((StorageWrapperAccessor) this).qshopSellUpgrade$getStorageWrapper()
                 .getUpgradeHandler().getTypeWrappers(SellUpgradeItem.TYPE)) {
-            ItemStack remaining = sellUpgrade.trySell(level, stack, player, false);
+            ItemStack remaining = sellUpgrade.trySell(stack, player, false);
             if (!remaining.isEmpty()) {
                 continue;
             }
